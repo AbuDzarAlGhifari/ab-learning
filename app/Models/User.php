@@ -59,4 +59,14 @@ class User extends Authenticatable
     {
         return $this->belongsToMany(Schedule::class, 'enrollments');
     }
+
+    public function createdQuizzes()
+    {
+        return $this->hasMany(Quiz::class, 'created_by');
+    }
+
+    public function quizAttempts()
+    {
+        return $this->hasMany(QuizAttempt::class, 'student_id');
+    }
 }

@@ -21,4 +21,9 @@ class Course extends Model
     {
         return $this->hasMany(Material::class)->orderBy('order');
     }
+
+    public function quizzes()
+    {
+        return $this->hasMany(Quiz::class);
+    }
 }
