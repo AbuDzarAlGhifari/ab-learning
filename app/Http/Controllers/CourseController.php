@@ -2,39 +2,35 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-
 use App\Models\Course;
+use App\Http\Requests\StoreCourseRequest;
 
 class CourseController extends Controller
 {
     public function index()
     {
-        return Course::all();
+        return Course::paginate(10);
     }
-    public function store(Request $r)
+
+    public function store(StoreCourseRequest $req)
     {
-        $data = $r->validate(['title' => 'required', 'description' => 'nullable']);
-        return Course::create($data);
+        return Course::create($req->validated());
     }
+
     public function show(Course $course)
     {
         return $course;
     }
-    public function update(Request $r, Course $course)
+
+    public function update(StoreCourseRequest $req, Course $course)
     {
-        $data = $r->validate(['title' => 'required', 'description' => 'nullable']);
-        $course->update($data);
+        $course->update($req->validated());
         return $course;
     }
+
     public function destroy(Course $course)
     {
         $course->delete();
         return response()->noContent();
-    }
-    // List students enrolled for admin/teacher:
-    public function students(Course $course)
-    {
-        return $course->enrollments()->with('student:id,name,email')->get()->pluck('student');
     }
 }
