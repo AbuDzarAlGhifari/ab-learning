@@ -14,14 +14,12 @@ class EnrollmentController extends Controller
         $data['student_id'] = $r->user()->id;
         return Enrollment::create($data);
     }
-    public function myCourses(Request $request)
+    public function myCourses(Request $req)
     {
-        $courses = $request->user()
-            ->enrollments()
+        return $req->user()->enrollments()
+            ->whereHas('payments', fn($q) => $q->where('status', 'paid'))
             ->with('course')
             ->get()
             ->pluck('course');
-
-        return response()->json($courses);
     }
 }
