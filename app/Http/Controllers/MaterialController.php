@@ -7,15 +7,13 @@ use App\Models\Material;
 
 class MaterialController extends Controller
 {
-    // Teacher only: index materials for a course
-    public function index($courseId)
+    public function index(Request $req, $courseId)
     {
         return Material::where('course_id', $courseId)
             ->orderBy('order')
-            ->get();
+            ->paginate($req->query('per_page', 10));
     }
 
-    // Teacher only: store new material
     public function store(Request $req, $courseId)
     {
         $data = $req->validate([
@@ -29,7 +27,6 @@ class MaterialController extends Controller
         return response()->json($material, 201);
     }
 
-    // Teacher only: update material
     public function update(Request $req, Material $material)
     {
         $data = $req->validate([
@@ -42,7 +39,6 @@ class MaterialController extends Controller
         return response()->json($material);
     }
 
-    // Teacher only: delete material
     public function destroy(Material $material)
     {
         $material->delete();
