@@ -14,8 +14,14 @@ class EnrollmentController extends Controller
         $data['student_id'] = $r->user()->id;
         return Enrollment::create($data);
     }
-    public function myCourses(Request $r)
+    public function myCourses(Request $request)
     {
-        return $r->user()->enrollments()->with('course')->get()->pluck('course');
+        $courses = $request->user()
+            ->enrollments()
+            ->with('course')
+            ->get()
+            ->pluck('course');
+
+        return response()->json($courses);
     }
 }

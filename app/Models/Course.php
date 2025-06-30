@@ -11,8 +11,14 @@ class Course extends Model
     {
         return $this->hasMany(Schedule::class);
     }
+
     public function enrollments()
     {
         return $this->hasMany(Enrollment::class);
+    }
+
+    public function materials()
+    {
+        return $this->hasMany(Material::class)->orderBy('order');
     }
 }
