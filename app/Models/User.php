@@ -69,4 +69,18 @@ class User extends Authenticatable
     {
         return $this->hasMany(QuizAttempt::class, 'student_id');
     }
+
+    public function createdAssignments()
+    {
+        return $this->hasMany(Assignment::class, 'created_by');
+    }
+    public function submissions()
+    {
+        return $this->hasMany(Submission::class, 'student_id');
+    }
+
+    public function profile()
+    {
+        return $this->hasOne(UserProfile::class);
+    }
 }
